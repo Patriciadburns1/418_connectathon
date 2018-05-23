@@ -3,10 +3,10 @@
 $(document).ready(startConnectFour);
 
 var gameBoardArray =
-    [[0, 0, 0, 1, 2, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 1],
+    [[0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0]];
@@ -64,18 +64,19 @@ var coordinateRow = null;
 var currentSymbol = null;
 
 function handleColumnClick() {
-    coordinateColumn = getColumnIndex();
-    currentSymbol = getCurrentSymbol();
+    console.log(this);
+    coordinateColumn = getColumnIndex($(this));
+    currentSymbol = getCurrentSymbol($(this));
     coordinateRow = getRowIndex(coordinateColumn);
     updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol);
 }
 
-function getColumnIndex(){
-    return $(this).find(".cell-container").attr("column");
+function getColumnIndex(cellContainer){
+    return cellContainer.attr("col");
 }
 
-function getCurrentSymbol() {
-    return $(this).find(".cell-container").attr("src");
+function getCurrentSymbol(cellContainer) {
+    return $(cellContainer).find("img").attr("src");
 }
 
 function getRowIndex(coordinateColumn){
@@ -96,37 +97,37 @@ function updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol) {
 
 
 
-function checkForWin(y, x, symbol) {
-    debugger;
-    var counter = 1;
-    for (var majorDirection in vectors) {
-        var set = vectors[majorDirection];
-        var startY = y + set['y'];
-        var startX = x + set['x'];
+// function checkForWin(y, x, symbol) {
+//     debugger;
+//     var counter = 1;
+//     for (var majorDirection in vectors) {
+//         var set = vectors[majorDirection];
+//         var startY = y + set['y'];
+//         var startX = x + set['x'];
 
-        while (gameBoardArray[startY][startX] === symbol) {
-            console.log(gameBoardArray[startY][startX]);
-            //check to see if player1/ player2 or 0 
-            //player1 was defined then an if statement to proceed 
-            //only increment counter if it matches current player piece 
-            // we need to check if on same axis, if not on same axis and the symbol isnt the same
-            //we switch to a new axis 
-            counter++;
-            startY += set['y'];
-            startX += set['x'];
-            if (counter === 4) {
-                console.log("YOU WIN!");
-                return true;
-            }
-        }
-        if (gameBoardArray[startY][startX] != symbol) {
-            counter = 1;
-            continue;
-        }
-    }
-}
+//         while (gameBoardArray[startY][startX] === symbol) {
+//             console.log(gameBoardArray[startY][startX]);
+//             //check to see if player1/ player2 or 0 
+//             //player1 was defined then an if statement to proceed 
+//             //only increment counter if it matches current player piece 
+//             // we need to check if on same axis, if not on same axis and the symbol isnt the same
+//             //we switch to a new axis 
+//             counter++;
+//             startY += set['y'];
+//             startX += set['x'];
+//             if (counter === 4) {
+//                 console.log("YOU WIN!");
+//                 return true;
+//             }
+//         }
+//         if (gameBoardArray[startY][startX] != symbol) {
+//             counter = 1;
+//             continue;
+//         }
+//     }
+// }
 
-checkForWin(0, 3, 1);
+// checkForWin(0, 3, 1);
 
 // if(checkForWin(0,3,1) === true) {
 //     //display modal
