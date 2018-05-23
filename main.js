@@ -53,8 +53,8 @@ function createCells(row, col) {
         class: "hole"
       });
 
-      //   var img = $('<img src="images/earth_icon.png" alt="">');
-      //   img.appendTo(hole);
+        // var img = $('<img src="images/earth_icon.png" alt="">');
+        // img.appendTo(hole);
 
       hole.appendTo(cellContainer);
 
@@ -68,13 +68,9 @@ function addGameHandlers() {
 }
 
 var coordinateColumn = null;
+var coordinateRow = null;
 var currentSymbol = null;
 
-function handleColumnClick() {
-  getCellIndex();
-  getCurrentSymbol();
-  updateArrayAtPosition();
-}
 
 function getCellIndex() {
   // coordinateRow = $(this).find(".cell-container").attr("row");
@@ -91,20 +87,34 @@ function getCurrentSymbol() {
   return currentSymbol;
 }
 
-function updateArrayAtPosition(coordinateColumn, currentSymbol) {
-  if (gameBoardArray[2][coordinateColumn] === 0) {
-    gameBoardArray[2].splice(coordinateColumn, 1, currentSymbol);
-    console.log("Filled bottom row in column");
-  } else if (gameBoardArray[1][coordinateColumn] === 0) {
-    multiArray[1].splice(coordinateColumn, 1, currentSymbol);
-    console.log("Filled middle row in column");
-  } else if (gameBoardArray[0][coordinateColumn] === 0) {
-    gameBoardArray[0].splice(coordinateColumn, 1, currentSymbol);
-    console.log("Filled top row in column");
-  } else {
-    console.log("Column is filled");
-  }
-  return gameBoardArray;
+function handleColumnClick() {
+    coordinateColumn = getColumnIndex();
+    currentSymbol = getCurrentSymbol();
+    coordinateRow = getRowIndex(coordinateColumn);
+    updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol);
+}
+
+function getColumnIndex(){
+    return $(this).find(".cell-container").attr("column");
+}
+
+function getCurrentSymbol() {
+    return $(this).find(".cell-container").attr("src");
+}
+
+function getRowIndex(coordinateColumn){
+    var arraylength = gameBoardArray.length;
+    for (var rowChoice = arraylength-1; rowChoice >= 0; rowChoice--) {
+        if (gameBoardArray[rowChoice][coordinateColumn] === 0) {
+            return rowChoice;
+        }
+    }
+    return -1;
+}
+
+function updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol) {
+    gameBoardArray[coordinateRow].splice(coordinateColumn, 1, currentSymbol) 
+    return gameBoardArray;
 }
 
 function checkForWin(y, x, symbol) {
