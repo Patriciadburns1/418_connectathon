@@ -34,6 +34,8 @@ function checkForWin(y, x, symbol) {
             //check to see if player1/ player2 or 0 
             //player1 was defined then an if statement to proceed 
             //only increment counter if it matches current player piece 
+            // we need to check if on same axis, if not on same axis and the symbol isnt the same
+            //we switch to a new axis 
             counter++;
             startY += set['y'];
             startX += set['x'];
