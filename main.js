@@ -25,9 +25,15 @@ var vectors = [
 
 function startConnectFour() {
   console.log("start Connect Four");
-  createCells(7, 7);
+ // createCells(7, 7);
   addGameHandlers();
+  clickStartButton(); 
 }
+
+function clickStartButton(){
+    $("#startButton").on("click",closeModalatStart )
+}
+
 
 function createCells(row, col) {
   var gameBoard = $(".game-board");
@@ -135,3 +141,12 @@ checkForWin(0, 3, 1);
 // } else {
 //     // click function enabled continue playing game 
 // }
+
+function displayModal() {
+    document.querySelector("#modalShadow").style.display = "block"; 
+}
+
+function closeModalatStart() {
+    document.querySelector("#modalShadow").style.display = "none";
+    createCells(7, 7);
+}
