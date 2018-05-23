@@ -8,14 +8,13 @@ function startConnectFour() {
 
 function createCells(row, col) {
   var gameBoard = $(".game-board");
-
   for (var i = 0; i < row; i++) {
     for (var k = 0; k < col; k++) {
       var cellContainer = $("<div>", {
         class: "cell-container",
         attr: {
-          row: row,
-          col: col
+          row: i,
+          col: k
         }
       });
 
