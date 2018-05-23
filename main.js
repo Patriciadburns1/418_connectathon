@@ -1,14 +1,14 @@
 $(document).ready(startConnectFour);
 
-var gameBoardArray = [
-  [1, 1, 1, 1, 2, 0, 0],
-  [0, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0]
-];
+
+var gameBoardArray =
+    [[0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]];
 
 var vectors = [
   { y1: 0, x1: -1, y2: 0, x2: 1 }, //left and right
@@ -88,18 +88,19 @@ function getCurrentSymbol() {
 }
 
 function handleColumnClick() {
-    coordinateColumn = getColumnIndex();
-    currentSymbol = getCurrentSymbol();
+    console.log(this);
+    coordinateColumn = getColumnIndex($(this));
+    currentSymbol = getCurrentSymbol($(this));
     coordinateRow = getRowIndex(coordinateColumn);
     updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol);
 }
 
-function getColumnIndex(){
-    return $(this).find(".cell-container").attr("column");
+function getColumnIndex(cellContainer){
+    return cellContainer.attr("col");
 }
 
-function getCurrentSymbol() {
-    return $(this).find(".cell-container").attr("src");
+function getCurrentSymbol(cellContainer) {
+    return $(cellContainer).find("img").attr("src");
 }
 
 function getRowIndex(coordinateColumn){
@@ -157,9 +158,3 @@ function checkForWin(y, x, symbol) {
   console.log("no match!");
   return false;
 }
-
-// if(checkForWin(0,3,1) === true) {
-//     //display modal
-// } else {
-//     // click function enabled continue playing game
-// }
