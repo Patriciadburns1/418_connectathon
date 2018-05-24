@@ -28,9 +28,9 @@ var player = 0;
 var symbols = [];
 
 var powerUps = {
-    moon: 0,
-    sun: 0
-}
+  moon: 0,
+  sun: 0
+};
 
 function togglePlayer() {
   player = 1 - player;
@@ -42,26 +42,53 @@ function startConnectFour() {
   console.log("start Connect Four");
   // createCells(7, 7);
   addGameHandlers();
+  hideWinModal();
   clickStartButton();
   addPlanetHandler();
 }
 
 function assignPlayer() {
+  if (symbols.length >= 2) {
+    return;
+  }
+  console.log("this is assignPlayer");
   var symbol = $(this).attr("src");
   if (player === 0) {
     symbols[0] = symbol;
+    $(this).addClass("ifImageChosen");
   } else {
     symbols[1] = symbol;
+    $(this).addClass("ifImageChosen");
   }
   togglePlayer();
+  changeTextonModal();
 }
 
-function addPlanetHandler() {
-  $(".imagesDiv").on("click", "img", assignPlayer);
+function changeTextonModal() {
+  if (symbols.length === 2) {
+    $(".selectPlayer").text("Select the Planetary Body for Player 2");
+    appendStartButton();
+    clickStartButton();
+  }
+}
+
+function appendStartButton() {
+  console.log("this is working");
+  var startButton = $("<button>", {
+    type: "button",
+    text: "START NOW!",
+    id: "startButton",
+    class: "playButtons"
+  });
+  $(startButton).appendTo(".modalItems");
 }
 
 function clickStartButton() {
   $("#startButton").on("click", closeModalatStart);
+}
+
+function addPlanetHandler() {
+  $(".imagesDiv").on("click", "img", assignPlayer);
 }
 
 function createResetButton() {
@@ -115,9 +142,12 @@ function handleColumnClick() {
   var won = checkForWin(coordinateRow, coordinateColumn, currentSymbol);
   if (won) {
     console.log("you win!");
+    showWinModal();
+    $(".game-board").off("click");
   }
 
   checkForPatterns(currentSymbol);
+  $("#winModalShadow").click(hideWinModal);
 }
 
 function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
@@ -171,12 +201,12 @@ function updateArrayAtPosition(coordinateRow, coordinateColumn) {
 function checkForPatterns(symbol) {
   for (var i = 0; i < gameBoardArray.length; i++) {
     for (var k = 0; k < gameBoardArray[0].length; k++) {
-       if(checkForCrossPattern(i, k, symbol, crossVector)) {
-           powerUps.sun++;
-       }
-       if(checkForLPattern(i, k, symbol, LVector)) {
-           powerUps.moon++;
-       }
+      if (checkForCrossPattern(i, k, symbol, crossVector)) {
+        powerUps.sun++;
+      }
+      if (checkForLPattern(i, k, symbol, LVector)) {
+        powerUps.moon++;
+      }
     }
   }
 }
@@ -307,6 +337,7 @@ function closeModalatStart() {
   document.querySelector("#modalShadow").style.display = "none";
   createCells(7, 7);
   createResetButton();
+  hideWinModal();
 }
 
 function resetGame() {
@@ -322,6 +353,23 @@ function resetGame() {
   ];
   symbols = [];
   player = 0;
+  $(".cell-container").remove();
+  createCells(7, 7);
   powerUps.moon = 0;
   powerUps.sun = 0;
+}
+
+function showWinModal() {
+  document.querySelector("#winModalShadow").style.display = "block";
+}
+
+function hideWinModal() {
+  document.querySelector("#winModalShadow").style.display = "none";
+}
+
+function clearColumn(column) {
+  for (var row = gameBoardArray.length - 1; row >= 0; row--) {
+    gameBoardArray[row].splice(column, 1, 0);
+    $(".cell-container[col='" + column + "'] > .hole").empty();
+  }
 }

@@ -6,8 +6,9 @@ body {
 }
 .header {
   color: white;
-  text-align: center;
-  font-family: "Space Mono", monospace;
+  text-align: center; 
+  font-family: 'Space Mono', monospace; 
+  font-size: 5rem; 
 }
 
 .selectPlayer {
@@ -74,20 +75,22 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: rgba(241, 233, 233, 0.4);
-  /* display: none;  */
 }
-#modalBody {
-  position: fixed;
-  background-image: url("images/yongChuan.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  left: 50%;
-  top: 50%;
-  min-height: 50%;
-  min-width: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
+
+
+#modalBody{
+  position: fixed; 
+  background-image:url("images/yongChuan.jpg");
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  left: 50%; 
+  top: 50%; 
+  min-height:50%;
+  min-width:50%; 
+  transform: translate( -50%, -50%); 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
   align-items: center;
   font-family: "Space Mono", monospace;
 }
@@ -96,9 +99,15 @@ body {
   position: relative;
 }
 
-.imagesDiv img {
-  /* height: 150px;  */
-  width: 150px;
+
+.imagesDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.imagesDiv img{
+  width:100px;
 }
 
 .statsDisplay {
@@ -119,3 +128,44 @@ body {
   border-radius: 30px;
   font-family: 'Space Mono', monospace; 
 }
+
+
+.ifImageChosen{
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+
+#winModalShadow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(241, 233, 233, 0.4);
+  /* display: none;  */
+}
+#winModalBody {
+  position: fixed;
+  /* background-image: url("images/yongChuan.jpg"); */
+  background-image: url("https://media0.giphy.com/media/BFHj2VF4vi3GE/200w.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  left: 50%;
+  top: 50%;
+  min-height: 70%;
+  min-width: 70%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Space Mono", monospace;
+  flex-direction: column;
+  color: white;
+  
+}
+
+#winTitle {
+  font-size: 5rem;
+}
+
+
