@@ -143,12 +143,15 @@ function handleColumnClick() {
   if (won) {
     console.log("you win!");
     showWinModal();
-    $(".game-board").off("click");
+    // $(".game-board").off("click");
+    resetGame();
   }
-
   checkForPatterns(currentSymbol);
-  $("#winModalShadow").click(hideWinModal);
+ $("#winModalShadow").click(hideWinModal);
 }
+
+  
+ 
 
 function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
   var img = $("<img>", {
@@ -341,26 +344,30 @@ function closeModalatStart() {
 }
 
 function resetGame() {
-  console.log("reset clicked");
-  gameBoardArray = [
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0]
-  ];
-  symbols = [];
-  player = 0;
-  $(".cell-container").remove();
-  createCells(7, 7);
-  powerUps.moon = 0;
-  powerUps.sun = 0;
+    console.log("reset clicked");
+    gameBoardArray =
+        [[0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0]];
+    player = 0;
+    $(".cell-container").remove();
+    createCells(7, 7);
 }
 
 function showWinModal() {
-  document.querySelector("#winModalShadow").style.display = "block";
+    document.querySelector("#winModalShadow").style.display = "block";
+    if (player === 0) {
+      player = 2;
+    } else {
+      player = 1;
+    }
+    $("#winTitle").text("Player " + player + " wins!");
+  powerUps.moon = 0;
+  powerUps.sun = 0;
 }
 
 function hideWinModal() {
