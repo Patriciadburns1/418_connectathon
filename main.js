@@ -35,22 +35,43 @@ function startConnectFour() {
   addPlanetHandler();
 }
 
-function assignPlayer() {
-  var symbol = $(this).attr("src");
-  if (player === 0) {
-    symbols[0] = symbol;
-  } else {
-    symbols[1] = symbol;
-  }
-  togglePlayer();
+function assignPlayer(){
+  console.log("this is assignPlayer");
+    var symbol=$(this).attr("src"); 
+    if( player===0){
+        symbols[0]=symbol;
+    }   
+    else{
+        symbols[1]=symbol; 
+    }
+   togglePlayer(); 
+   changeTextonModal(); 
+}
+
+
+function changeTextonModal(){
+    if(symbols.length===2){
+        $(".selectPlayer").text("Select the Planet for Player 2"); 
+        appendStartButton(); 
+        clickStartButton(); 
+    }   
+    // if(symbols.length===1){
+    //     $().addClass()
+    // }
+}
+
+function appendStartButton(){
+    console.log('this is working'); 
+    var startButton = $('<button>',{ type: "button", text:"START NOW!", id:"startButton", class:"playButtons"});
+    $(startButton).appendTo('.modalItems'); 
+}
+
+function clickStartButton(){
+  $("#startButton").on("click",closeModalatStart);
 }
 
 function addPlanetHandler() {
   $(".imagesDiv").on("click", "img", assignPlayer);
-}
-
-function clickStartButton() {
-  $("#startButton").on("click", closeModalatStart);
 }
 
 function createResetButton() {
