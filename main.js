@@ -17,8 +17,20 @@ var vectors = [
   { y1: 1, x1: -1, y2: -1, x2: 1 } //down left and up right
 ];
 
+var crossVector = [
+  { y1: 0, x1: -1, y2: 0, x2: 1 }, //left and right
+  { y1: 1, x1: 0, y2: -1, x2: 0 } //up and down
+];
+
+var LVector = [{ y1: 0, x1: 1, y2: -1, x2: 0 }];
+
 var player = 0;
 var symbols = [];
+
+var powerUps = {
+  moon: 0,
+  sun: 0
+};
 
 function togglePlayer() {
   player = 1 - player;
@@ -35,41 +47,44 @@ function startConnectFour() {
   addPlanetHandler();
 }
 
-function assignPlayer(){
-  if(symbols.length>=2){
-    return; 
+function assignPlayer() {
+  if (symbols.length >= 2) {
+    return;
   }
   console.log("this is assignPlayer");
-    var symbol=$(this).attr("src"); 
-    if( player===0){
-        symbols[0]=symbol;
-        $(this).addClass("ifImageChosen"); 
-    }   
-    else{
-        symbols[1]=symbol; 
-        $(this).addClass("ifImageChosen"); 
-    }
-   togglePlayer(); 
-   changeTextonModal(); 
+  var symbol = $(this).attr("src");
+  if (player === 0) {
+    symbols[0] = symbol;
+    $(this).addClass("ifImageChosen");
+  } else {
+    symbols[1] = symbol;
+    $(this).addClass("ifImageChosen");
+  }
+  togglePlayer();
+  changeTextonModal();
 }
 
-
-function changeTextonModal(){
-    if(symbols.length===2){
-        $(".selectPlayer").text("Select the Planetary Body for Player 2"); 
-        appendStartButton(); 
-        clickStartButton(); 
-    }   
+function changeTextonModal() {
+  if (symbols.length === 1) {
+    $(".selectPlayer").text("Select the Planetary Body for Player 2");
+    appendStartButton();
+    clickStartButton();
+  }
 }
 
-function appendStartButton(){
-    console.log('this is working'); 
-    var startButton = $('<button>',{ type: "button", text:"START NOW!", id:"startButton", class:"playButtons"});
-    $(startButton).appendTo('.modalItems'); 
+function appendStartButton() {
+  console.log("this is working");
+  var startButton = $("<button>", {
+    type: "button",
+    text: "START NOW!",
+    id: "startButton",
+    class: "playButtons"
+  });
+  $(startButton).appendTo(".modalItems");
 }
 
-function clickStartButton(){
-  $("#startButton").on("click",closeModalatStart);
+function clickStartButton() {
+  $("#startButton").on("click", closeModalatStart);
 }
 
 function addPlanetHandler() {
@@ -77,14 +92,13 @@ function addPlanetHandler() {
 }
 
 function createResetButton() {
-    var stats = $(".statsDisplay");
-    var resetButton = $("<button>", {
-        class: "reset",
-        text: "Reset",
-    });
-    stats.append(resetButton);
-    $(".reset").click(resetGame);
-
+  var stats = $(".statsDisplay");
+  var resetButton = $("<button>", {
+    class: "reset",
+    text: "Reset"
+  });
+  stats.append(resetButton);
+  $(".reset").click(resetGame);
 }
 
 function createCells(row, col) {
@@ -112,7 +126,19 @@ function createCells(row, col) {
 
 function addGameHandlers() {
   $(".game-board").on("click", ".cell-container", handleColumnClick);
+  $(".game-board").on("mouseenter", ".cell-container", handleCellMouseEnter);
+  $(".game-board").on("mouseleave", ".cell-container", handleCellMouseLeave);
 }
+
+function handleCellMouseEnter() {
+  var col = $(this).attr("col");
+  $(".cell-container[col=" + col + "]").addClass("drop-highlight");
+}
+
+function handleCellMouseLeave() {
+    var col = $(this).attr("col");
+    $(".cell-container[col=" + col + "]").removeClass("drop-highlight");
+  }
 
 var coordinateColumn = null;
 var coordinateRow = null;
@@ -129,10 +155,11 @@ function handleColumnClick() {
   if (won) {
     console.log("you win!");
     showWinModal();
-    $(".game-board").off("click");
+    // $(".game-board").off("click");
+    resetGame();
   }
+  checkForPatterns(currentSymbol);
   $("#winModalShadow").click(hideWinModal);
-
 }
 
 function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
@@ -176,11 +203,107 @@ function togglePlayerSymbols() {
     currentSymbol = symbols[1];
   }
   togglePlayer();
+  toggleBoardColor();
+}
+
+function toggleBoardColor() {
+    $('.cell-container').toggleClass('is-player-two');
 }
 
 function updateArrayAtPosition(coordinateRow,coordinateColumn){
   gameBoardArray[coordinateRow].splice(coordinateColumn, 1, currentSymbol);
   return gameBoardArray;
+}
+
+function checkForPatterns(symbol) {
+  for (var i = 0; i < gameBoardArray.length; i++) {
+    for (var k = 0; k < gameBoardArray[0].length; k++) {
+      if (checkForCrossPattern(i, k, symbol, crossVector)) {
+        powerUps.sun++;
+      }
+      if (checkForLPattern(i, k, symbol, LVector)) {
+        powerUps.moon++;
+      }
+    }
+  }
+}
+
+function checkForLPattern(y, x, symbol, vectors) {
+  for (var direction in vectors) {
+    var startCounter = 1;
+    var endCounter = 1;
+    var set = vectors[direction];
+    var startY1 = y + set["y1"];
+    var startX1 = x + set["x1"];
+    var startY2 = y + set["y2"];
+    var startX2 = x + set["x2"];
+
+    while (
+      gameBoardArray[startY1] &&
+      gameBoardArray[startY1][startX1] === symbol
+    ) {
+      startCounter++;
+      startY1 += set["y1"];
+      startX1 += set["x1"];
+    }
+
+    while (
+      gameBoardArray[startY2] &&
+      gameBoardArray[startY2][startX2] === symbol
+    ) {
+      endCounter++;
+      startY2 += set["y2"];
+      startX2 += set["x2"];
+    }
+
+    if (startCounter > 2 && endCounter > 2) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function checkForCrossPattern(y, x, symbol, vectors) {
+  var directions = [];
+
+  for (var direction in vectors) {
+    var startCounter = 1;
+    var endCounter = 1;
+    var set = vectors[direction];
+    var startY1 = y + set["y1"];
+    var startX1 = x + set["x1"];
+    var startY2 = y + set["y2"];
+    var startX2 = x + set["x2"];
+
+    while (
+      gameBoardArray[startY1] &&
+      gameBoardArray[startY1][startX1] === symbol
+    ) {
+      startCounter++;
+      startY1 += set["y1"];
+      startX1 += set["x1"];
+    }
+
+    while (
+      gameBoardArray[startY2] &&
+      gameBoardArray[startY2][startX2] === symbol
+    ) {
+      endCounter++;
+      startY2 += set["y2"];
+      startX2 += set["x2"];
+    }
+
+    if (startCounter > 1 && endCounter > 1) {
+      directions.push(true);
+    } else {
+      directions.push(false);
+    }
+  }
+  //check if both directions have matching symbols
+  if (directions[0] && directions[1]) {
+    return true;
+  }
+  return false;
 }
 
 function checkForWin(y, x, symbol) {
@@ -228,38 +351,43 @@ function displayModal() {
 }
 
 function closeModalatStart() {
-    document.querySelector("#modalShadow").style.display = "none";
-    createCells(7, 7);
-    createResetButton();
-    hideWinModal();
+  document.querySelector("#modalShadow").style.display = "none";
+  createCells(7, 7);
+  createResetButton();
+  hideWinModal();
 }
 
-
 function resetGame() {
-    console.log("reset clicked");
-    gameBoardArray =
-        [[0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0]];
-    symbols = [];
-    player = 0;
-    $(".cell-container").remove();
-    createCells(7, 7);
-
+  console.log("reset clicked");
+  gameBoardArray = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]
+  ];
+  player = 0;
+  $(".cell-container").remove();
+  createCells(7, 7);
 }
 
 function showWinModal() {
-    document.querySelector("#winModalShadow").style.display = "block";
+  document.querySelector("#winModalShadow").style.display = "block";
+  if (player === 0) {
+    player = 2;
+  } else {
+    player = 1;
+  }
+  $("#winTitle").text("Player " + player + " wins!");
+  powerUps.moon = 0;
+  powerUps.sun = 0;
 }
 
 function hideWinModal() {
-    document.querySelector("#winModalShadow").style.display = "none";
+  document.querySelector("#winModalShadow").style.display = "none";
 }
-
 
 function clearRowmoveRowDown(row){
   var newRow= new Array(7).fill(0); 
@@ -274,5 +402,12 @@ function clearRowmoveRowDown(row){
      }
    }
  }
+}
+
+function clearColumn(column) {
+  for (var row = gameBoardArray.length - 1; row >= 0; row--) {
+    gameBoardArray[row].splice(column, 1, 0);
+    $(".cell-container[col='" + column + "'] > .hole").empty();
+  }
 }
 
