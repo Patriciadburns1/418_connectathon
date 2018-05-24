@@ -65,7 +65,7 @@ function assignPlayer() {
 }
 
 function changeTextonModal() {
-  if (symbols.length === 2) {
+  if (symbols.length === 1) {
     $(".selectPlayer").text("Select the Planetary Body for Player 2");
     appendStartButton();
     clickStartButton();
@@ -126,7 +126,19 @@ function createCells(row, col) {
 
 function addGameHandlers() {
   $(".game-board").on("click", ".cell-container", handleColumnClick);
+  $(".game-board").on("mouseenter", ".cell-container", handleCellMouseEnter);
+  $(".game-board").on("mouseleave", ".cell-container", handleCellMouseLeave);
 }
+
+function handleCellMouseEnter() {
+  var col = $(this).attr("col");
+  $(".cell-container[col=" + col + "]").addClass("drop-highlight");
+}
+
+function handleCellMouseLeave() {
+    var col = $(this).attr("col");
+    $(".cell-container[col=" + col + "]").removeClass("drop-highlight");
+  }
 
 var coordinateColumn = null;
 var coordinateRow = null;
@@ -147,11 +159,8 @@ function handleColumnClick() {
     resetGame();
   }
   checkForPatterns(currentSymbol);
- $("#winModalShadow").click(hideWinModal);
+  $("#winModalShadow").click(hideWinModal);
 }
-
-  
- 
 
 function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
   var img = $("<img>", {
@@ -194,6 +203,11 @@ function togglePlayerSymbols() {
     currentSymbol = symbols[1];
   }
   togglePlayer();
+  toggleBoardColor();
+}
+
+function toggleBoardColor() {
+    $('.cell-container').toggleClass('is-player-two');
 }
 
 function updateArrayAtPosition(coordinateRow, coordinateColumn) {
@@ -344,28 +358,29 @@ function closeModalatStart() {
 }
 
 function resetGame() {
-    console.log("reset clicked");
-    gameBoardArray =
-        [[0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0]];
-    player = 0;
-    $(".cell-container").remove();
-    createCells(7, 7);
+  console.log("reset clicked");
+  gameBoardArray = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]
+  ];
+  player = 0;
+  $(".cell-container").remove();
+  createCells(7, 7);
 }
 
 function showWinModal() {
-    document.querySelector("#winModalShadow").style.display = "block";
-    if (player === 0) {
-      player = 2;
-    } else {
-      player = 1;
-    }
-    $("#winTitle").text("Player " + player + " wins!");
+  document.querySelector("#winModalShadow").style.display = "block";
+  if (player === 0) {
+    player = 2;
+  } else {
+    player = 1;
+  }
+  $("#winTitle").text("Player " + player + " wins!");
   powerUps.moon = 0;
   powerUps.sun = 0;
 }
