@@ -1,6 +1,5 @@
 $(document).ready(startConnectFour);
 
-
 var gameBoardArray =
     [[0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
@@ -22,10 +21,7 @@ var symbols = [];
 
 function togglePlayer() {
     player = 1 - player;
-    return player;
 }
-
-
 
 checkForWin(0, 3, 1);
 
@@ -38,8 +34,6 @@ function startConnectFour() {
 }
 
 function assignPlayer(){
-    debugger; 
-    console.log("this is working"); 
     var symbol=$(this).attr("src"); 
     if( player===0){
         symbols[0]=symbol;
@@ -57,7 +51,6 @@ function addPlanetHandler(){
 function clickStartButton(){
     $("#startButton").on("click",closeModalatStart )
 }
-
 
 function createCells(row, col) {
   var gameBoard = $(".game-board");
@@ -93,9 +86,7 @@ var coordinateColumn = null;
 var coordinateRow = null;
 var currentSymbol = null;
 
-
 function getCellIndex() {
-  // coordinateRow = $(this).find(".cell-container").attr("row");
   coordinateColumn = $(this)
     .find(".cell-container")
     .attr("column");
@@ -110,10 +101,10 @@ function getCurrentSymbol() {
 }
 
 function handleColumnClick() {
-    console.log(this);
     coordinateColumn = getColumnIndex($(this));
     currentSymbol = getCurrentSymbol($(this));
     coordinateRow = getRowIndex(coordinateColumn);
+    togglePlayerSymbols();
     updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol);
 }
 
@@ -135,7 +126,16 @@ function getRowIndex(coordinateColumn){
     return -1;
 }
 
-function updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol) {
+function togglePlayerSymbols() {
+    if (player === 0) {
+        currentSymbol = symbols[0];
+    } else {
+        currentSymbol = symbols[1];
+    }
+    togglePlayer();
+}
+
+function updateArrayAtPosition(coordinateRow, coordinateColumn) {
     gameBoardArray[coordinateRow].splice(coordinateColumn, 1, currentSymbol) 
     return gameBoardArray;
 }
