@@ -65,8 +65,10 @@ function assignPlayer() {
 }
 
 function changeTextonModal() {
-  if (symbols.length === 1) {
+  if(symbols.length===1){
     $(".selectPlayer").text("Select the Planetary Body for Player 2");
+  }
+  if (symbols.length === 2) {
     appendStartButton();
     clickStartButton();
   }
