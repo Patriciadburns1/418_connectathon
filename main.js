@@ -25,21 +25,16 @@ function togglePlayer() {
     return player;
 }
 
-
-
 checkForWin(0, 3, 1);
 
 function startConnectFour() {
   console.log("start Connect Four");
- // createCells(7, 7);
   addGameHandlers();
   clickStartButton();
   addPlanetHandler();  
 }
 
 function assignPlayer(){
-    debugger; 
-    console.log("this is working"); 
     var symbol=$(this).attr("src"); 
     if( player===0){
         symbols[0]=symbol;
@@ -48,14 +43,32 @@ function assignPlayer(){
         symbols[1]=symbol; 
     }
    togglePlayer(); 
+   changeTextonModal(); 
 }
 
 function addPlanetHandler(){
-    $(".imagesDiv").on("click","img", assignPlayer )
+    $(".imagesDiv").on("click","img", assignPlayer);
+}
+
+function changeTextonModal(){
+    if(symbols.length===2){
+        $(".selectPlayer").text("Select the Planet for Player 2"); 
+        appendStartButton(); 
+    }   
+    // if(symbols.length===1){
+    //     $().addClass()
+    // }
+}
+
+function appendStartButton(){
+    console.log('this is working'); 
+    var startButton = $('<button>',{ type: "button", text:"START NOW!", id:"startButton", class:"playButtons"});
+    $(startButton).appendTo('.modalItems'); 
+    clickStartButton(); 
 }
 
 function clickStartButton(){
-    $("#startButton").on("click",closeModalatStart )
+    $("#startButton").on("click",closeModalatStart);
 }
 
 

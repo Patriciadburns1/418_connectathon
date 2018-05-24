@@ -8,6 +8,7 @@ body {
   color: white;
   text-align: center; 
   font-family: 'Space Mono', monospace; 
+  font-size: 5rem; 
 }
 
 .selectPlayer{
@@ -66,6 +67,7 @@ body {
   background-color:rgba(241, 233, 233, 0.4); 
   /* display: none;  */
 }
+
 #modalBody{
   position: fixed; 
   background-image:url("images/yongChuan.jpg");
@@ -77,7 +79,8 @@ body {
   min-width:50%; 
   transform: translate( -50%, -50%); 
   display: flex; 
-  justify-content: center; 
+  flex-direction: column; 
+  justify-content: space-between; 
   align-items: center;
   font-family: 'Space Mono', monospace;
 }
@@ -87,9 +90,14 @@ body {
  
 }
 
+.imagesDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
 .imagesDiv img{
-  /* height: 150px;  */
-  width:150px; 
+  width:100px;
 }
 
 
