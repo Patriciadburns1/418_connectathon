@@ -65,7 +65,7 @@ function assignPlayer() {
 }
 
 function changeTextonModal() {
-  if(symbols.length === 1){
+  if (symbols.length === 1) {
     $(".selectPlayer").text("Select the Planetary Body for Player 2");
   }
   if (symbols.length === 2) {
@@ -106,33 +106,28 @@ function createResetButton() {
 
 function createPlayerStats() {
   var gameBoard = $(".statsDisplay");
-  var player1title = $("<h3>", {
-    text: "Player 1"
-  });
-  var player1stats = $("<div>", {
-    class: "powerUps"
-  });
-  var player1hole = $("<div>", {
-    class: "statsHole",
-    id: "playerHole1"
-  });
-  gameBoard.append(player1title);
-  gameBoard.append(player1stats);
-  player1hole.appendTo(player1stats);
+  for (var i = 0; i < symbols.length; i++) {
+    var playertitle = $("<h3>", {
+      text: "Player " + (i + 1)
+    });
+    var playerstats = $("<div>", {
+      class: "powerUps"
+    });
+    var playerhole = $("<div>", {
+      class: "statsHole",
+      id: "playerHole" + (i + 1)
+    });
 
-  var player2title = $("<h3>", {
-    text: "Player 2"
-  });
-  var player2stats = $("<div>", {
-    class: "powerUps"
-  });
-  var player2hole = $("<div>", {
-    class: "statsHole",
-    id: "playerHole2"
-  });
-  gameBoard.append(player2title);
-  gameBoard.append(player2stats);
-  player2hole.appendTo(player2stats);
+    $("<img>", {
+      attr: {
+        src: symbols[i]
+      }
+    }).appendTo(playerhole);
+
+    gameBoard.append(playertitle);
+    gameBoard.append(playerstats);
+    playerhole.appendTo(playerstats);
+  }
 }
 
 function createCells(row, col) {
@@ -170,9 +165,9 @@ function handleCellMouseEnter() {
 }
 
 function handleCellMouseLeave() {
-    var col = $(this).attr("col");
-    $(".cell-container[col=" + col + "]").removeClass("drop-highlight");
-  }
+  var col = $(this).attr("col");
+  $(".cell-container[col=" + col + "]").removeClass("drop-highlight");
+}
 
 var coordinateColumn = null;
 var coordinateRow = null;
@@ -238,13 +233,25 @@ function togglePlayerSymbols() {
   }
   togglePlayer();
   toggleBoardColor();
+  glowSelectedPlayerProfile();
+}
+
+function glowSelectedPlayerProfile() {
+    if(player === 0) {
+        $('#playerHole1').addClass('glow');
+        $('#playerHole2').removeClass('glow');
+    } else {
+        $('#playerHole2').addClass('glow');
+        $('#playerHole1').removeClass('glow');
+    }
+
 }
 
 function toggleBoardColor() {
-    $('.cell-container').toggleClass('is-player-two');
+  $(".cell-container").toggleClass("is-player-two");
 }
 
-function updateArrayAtPosition(coordinateRow,coordinateColumn){
+function updateArrayAtPosition(coordinateRow, coordinateColumn) {
   gameBoardArray[coordinateRow].splice(coordinateColumn, 1, currentSymbol);
   return gameBoardArray;
 }
@@ -417,6 +424,7 @@ function closeModalatStart() {
   document.querySelector("#modalShadow").style.display = "none";
   createCells(7, 7);
   createPlayerStats();
+  glowSelectedPlayerProfile()
   createResetButton();
   hideWinModal();
 }
@@ -453,19 +461,23 @@ function hideWinModal() {
   document.querySelector("#winModalShadow").style.display = "none";
 }
 
-function clearRowmoveRowDown(row){
-  var newRow= new Array(7).fill(0); 
-  gameBoardArray.splice(row,1);
-  gameBoardArray.unshift(newRow); 
-  $(".cell-container[row='"+row+"'] > .hole").empty();
- for (var y=row-1; y>=0; y--){
-   for(var x=0; x<gameBoardArray.length; x++){
-     var image=$(".cell-container[row='"+y+"'][col='"+x+"'] > .hole > img")
-     if(image.length !== 0){
-       $(".cell-container[row='"+(y+1)+"'][col='"+x+"'] > .hole").append(image); 
-     }
-   }
- }
+function clearRowmoveRowDown(row) {
+  var newRow = new Array(7).fill(0);
+  gameBoardArray.splice(row, 1);
+  gameBoardArray.unshift(newRow);
+  $(".cell-container[row='" + row + "'] > .hole").empty();
+  for (var y = row - 1; y >= 0; y--) {
+    for (var x = 0; x < gameBoardArray.length; x++) {
+      var image = $(
+        ".cell-container[row='" + y + "'][col='" + x + "'] > .hole > img"
+      );
+      if (image.length !== 0) {
+        $(
+          ".cell-container[row='" + (y + 1) + "'][col='" + x + "'] > .hole"
+        ).append(image);
+      }
+    }
+  }
 }
 
 function clearColumn(column) {
@@ -474,4 +486,3 @@ function clearColumn(column) {
     $(".cell-container[col='" + column + "'] > .hole").empty();
   }
 }
-
