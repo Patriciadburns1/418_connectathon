@@ -52,6 +52,16 @@ function clickStartButton(){
     $("#startButton").on("click",closeModalatStart )
 }
 
+function createResetButton() {
+    console.log("created button");
+    var stats = $(".statsDisplay");
+    var resetButton = $("<div>", {
+        class: "reset",
+        text: "Reset Game",
+    });
+    stats.append(resetButton);
+}
+
 function createCells(row, col) {
   var gameBoard = $(".game-board");
   for (var i = 0; i < row; i++) {
@@ -188,4 +198,15 @@ function displayModal() {
 function closeModalatStart() {
     document.querySelector("#modalShadow").style.display = "none";
     createCells(7, 7);
+    createResetButton();
 }
+
+function showWinModal(){
+    $("#winModalShadow").style.display = "block";
+}
+
+function hideWinModal() {
+    $("#winModalShadow").style.display = "none";
+}
+
+
