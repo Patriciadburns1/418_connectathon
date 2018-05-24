@@ -3,6 +3,9 @@ body {
   width: 100vw;
   margin: 0;
   background-image: url("images/galaxy.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
   font-family: "Space Mono", monospace;
 }
 .header {
