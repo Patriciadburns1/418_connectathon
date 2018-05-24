@@ -65,7 +65,7 @@ function assignPlayer() {
 }
 
 function changeTextonModal() {
-  if (symbols.length === 2) {
+  if (symbols.length === 1) {
     $(".selectPlayer").text("Select the Planetary Body for Player 2");
     appendStartButton();
     clickStartButton();
@@ -203,6 +203,11 @@ function togglePlayerSymbols() {
     currentSymbol = symbols[1];
   }
   togglePlayer();
+  toggleBoardColor();
+}
+
+function toggleBoardColor() {
+    $('.cell-container').toggleClass('is-player-two');
 }
 
 function updateArrayAtPosition(coordinateRow, coordinateColumn) {
