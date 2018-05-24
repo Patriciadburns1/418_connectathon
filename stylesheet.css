@@ -92,30 +92,12 @@ body {
   width:150px; 
 }
 
-#winModalShado{
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0,0,0, .8);
-  display: none;
-}
-
-#winModalBody{
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  min-width: 50%;
-  min-height: 50%;
-  transform: translate(-50%, -50%);
-}
 
 .statsDisplay {
   height: 80vmin;
   width: 10vmin;
   color: white;
-  margin-right: 10vmin;
+  margin-right: 5vmin;
   position: relative;
 }
 
