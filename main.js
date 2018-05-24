@@ -17,17 +17,15 @@ var vectors = [
   { y1: 1, x1: -1, y2: -1, x2: 1 } //down left and up right
 ];
 
-var player = 1;
+var player = 0;
+var symbols = [];
 
-function togglePlayer(player) {
+function togglePlayer() {
     player = 1 - player;
     return player;
 }
 
-var symbols = [
-    "images/earth_icon.jpg",
-    "images/mars_icon.jpg",
-]
+
 
 checkForWin(0, 3, 1);
 
@@ -35,7 +33,25 @@ function startConnectFour() {
   console.log("start Connect Four");
  // createCells(7, 7);
   addGameHandlers();
-  clickStartButton(); 
+  clickStartButton();
+  addPlanetHandler();  
+}
+
+function assignPlayer(){
+    debugger; 
+    console.log("this is working"); 
+    var symbol=$(this).attr("src"); 
+    if( player===0){
+        symbols[0]=symbol;
+    }   
+    else{
+        symbols[1]=symbol; 
+    }
+   togglePlayer(); 
+}
+
+function addPlanetHandler(){
+    $(".imagesDiv").on("click","img", assignPlayer )
 }
 
 function clickStartButton(){
@@ -164,7 +180,7 @@ function checkForWin(y, x, symbol) {
   console.log("no match!");
   return false;
 }
-
+//this upon reset 
 function displayModal() {
     document.querySelector("#modalShadow").style.display = "block"; 
 }
