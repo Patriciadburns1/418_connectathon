@@ -95,12 +95,44 @@ function addPlanetHandler() {
 
 function createResetButton() {
   var stats = $(".statsDisplay");
+
   var resetButton = $("<button>", {
     class: "reset",
     text: "Reset"
   });
   stats.append(resetButton);
   $(".reset").click(resetGame);
+}
+
+function createPlayerStats() {
+  var gameBoard = $(".statsDisplay");
+  var player1title = $("<h3>", {
+    text: "Player 1"
+  });
+  var player1stats = $("<div>", {
+    class: "powerUps"
+  });
+  var player1hole = $("<div>", {
+    class: "statsHole",
+    id: "playerHole1"
+  });
+  gameBoard.append(player1title);
+  gameBoard.append(player1stats);
+  player1hole.appendTo(player1stats);
+
+  var player2title = $("<h3>", {
+    text: "Player 2"
+  });
+  var player2stats = $("<div>", {
+    class: "powerUps"
+  });
+  var player2hole = $("<div>", {
+    class: "statsHole",
+    id: "playerHole2"
+  });
+  gameBoard.append(player2title);
+  gameBoard.append(player2stats);
+  player2hole.appendTo(player2stats);
 }
 
 function createCells(row, col) {
@@ -222,9 +254,38 @@ function checkForPatterns(symbol) {
     for (var k = 0; k < gameBoardArray[0].length; k++) {
       if (checkForCrossPattern(i, k, symbol, crossVector)) {
         powerUps.sun++;
+        console.log("sun");
+        debugger;
+        if (player !== 0) {
+          $("#playerHole1").append("<img>");
+          if ($("#playerHole1 img").attr("src") !== "images/mars.png") {
+            $("#playerHole1 img").attr("src", "images/mars.png");
+            $("#playerHole1").addClass("glow");
+          }
+        } else {
+          $("#playerHole2").append("<img>");
+          if ($("#playerHole2 img").attr("src") !== "images/mars.png") {
+            $("#playerHole2 img").attr("src", "images/mars.png");
+            $("#playerHole1").addClass("glow");
+          }
+        }
       }
       if (checkForLPattern(i, k, symbol, LVector)) {
         powerUps.moon++;
+        console.log("moon");
+        if (player !== 0) {
+          $("#playerHole1").append("<img>");
+          if ($("#playerHole1 img").attr("src") !== "images/moon.png") {
+            $("#playerHole1 img").attr("src", "images/moon.png");
+            $("#playerHole1").addClass("glow");
+          }
+        } else {
+          $("#playerHole2").append("<img>");
+          if ($("#playerHole2 img").attr("src") !== "images/moon.png") {
+            $("#playerHole2 img").attr("src", "images/moon.png");
+            $("#playerHole1").addClass("glow");
+          }
+        }
       }
     }
   }
@@ -355,6 +416,7 @@ function displayModal() {
 function closeModalatStart() {
   document.querySelector("#modalShadow").style.display = "none";
   createCells(7, 7);
+  createPlayerStats();
   createResetButton();
   hideWinModal();
 }

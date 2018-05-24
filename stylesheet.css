@@ -3,6 +3,7 @@ body {
   width: 100vw;
   margin: 0;
   background-image: url("images/galaxy.jpg");
+  font-family: "Space Mono", monospace;
 }
 .header {
   color: white;
@@ -15,22 +16,23 @@ body {
   color: white;
   text-align: center;
   font-family: "Space Mono", monospace;
-  font-size: 2em; 
+  font-size: 2em;
 }
 
-#startButton{
+#startButton {
   /* background-color:white; */
-  background: transparent;   
-  color: white; 
-  font-size: 1.5rem; 
-  padding: .6rem 1rem; 
+  background: transparent;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.6rem 1rem;
   margin-bottom: 1.5rem;
-  }
+  cursor: pointer;
+}
 
-  #startButton:hover{
-    color: black;
-    background: white; 
-  }
+#startButton:hover {
+  color: black;
+  background: white;
+}
 
 .main-container {
   height: 100%;
@@ -120,7 +122,7 @@ body {
   background-repeat: no-repeat;
   left: 50%;
   top: 50%;
-  min-height: 100%; 
+  min-height: 100%;
   min-width: 100%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -142,27 +144,7 @@ body {
 
 .imagesDiv img {
   width: 100px;
-  padding: 3%; 
-}
-
-.statsDisplay {
-  height: 50vmin;
-  width: 20vmin;
-  color: white;
-  margin-right: 5vmin;
-  position: relative;
-  background-color:rgb(52, 52, 63); 
-}
-
-.reset {
-  width: 10vmin;
-  height: 5vmin;
-  background-color: white;
-  color: black;
-  padding: 2vmin;
-  text-align: center;
-  border-radius: 30px;
-  font-family: "Space Mono", monospace;
+  padding: 3%;
 }
 
 .ifImageChosen {
@@ -201,4 +183,53 @@ body {
 
 #winTitle {
   font-size: 5rem;
+}
+
+.powerUps {
+  border: 1px solid salmon;
+  height: 15vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+  box-sizing: border-box;
+  color: white;
+}
+.statsDisplay {
+  height: 80vmin;
+  width: 15vmin;
+  color: white;
+  margin-right: 5vmin;
+  position: relative;
+}
+
+.reset {
+  width: 10vmin;
+  height: 6vmin;
+  background-color: white;
+  color: black;
+  padding: 2vmin;
+  text-align: center;
+  font-family: "Space Mono", monospace;
+  margin-right: 5vmin;
+  margin-top: 5vmin;
+  cursor: pointer;
+  border-style: outset;
+  border-radius: 15px;
+}
+
+.statsHole {
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
+  border: 1px solid salmon;
+}
+
+.statsHole img {
+  width: 100%;
+}
+
+.glow {
+  box-shadow: 0 0 5px 1px #000, 0 0 20px 15px rgb(0, 17, 255),
+    0 0 30px 25px #0ff;
 }
