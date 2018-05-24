@@ -65,8 +65,10 @@ function assignPlayer() {
 }
 
 function changeTextonModal() {
-  if (symbols.length === 2) {
+  if(symbols.length===1){
     $(".selectPlayer").text("Select the Planetary Body for Player 2");
+  }
+  if (symbols.length === 2) {
     appendStartButton();
     clickStartButton();
   }
@@ -158,7 +160,19 @@ function createCells(row, col) {
 
 function addGameHandlers() {
   $(".game-board").on("click", ".cell-container", handleColumnClick);
+  $(".game-board").on("mouseenter", ".cell-container", handleCellMouseEnter);
+  $(".game-board").on("mouseleave", ".cell-container", handleCellMouseLeave);
 }
+
+function handleCellMouseEnter() {
+  var col = $(this).attr("col");
+  $(".cell-container[col=" + col + "]").addClass("drop-highlight");
+}
+
+function handleCellMouseLeave() {
+    var col = $(this).attr("col");
+    $(".cell-container[col=" + col + "]").removeClass("drop-highlight");
+  }
 
 var coordinateColumn = null;
 var coordinateRow = null;
@@ -179,7 +193,7 @@ function handleColumnClick() {
     resetGame();
   }
   checkForPatterns(currentSymbol);
- $("#winModalShadow").click(hideWinModal);
+  $("#winModalShadow").click(hideWinModal);
 }
 
 function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
@@ -223,9 +237,14 @@ function togglePlayerSymbols() {
     currentSymbol = symbols[1];
   }
   togglePlayer();
+  toggleBoardColor();
 }
 
-function updateArrayAtPosition(coordinateRow, coordinateColumn) {
+function toggleBoardColor() {
+    $('.cell-container').toggleClass('is-player-two');
+}
+
+function updateArrayAtPosition(coordinateRow,coordinateColumn){
   gameBoardArray[coordinateRow].splice(coordinateColumn, 1, currentSymbol);
   return gameBoardArray;
 }
@@ -403,32 +422,29 @@ function closeModalatStart() {
 }
 
 function resetGame() {
-    console.log("reset clicked");
-    gameBoardArray =
-        [[0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0]];
-    player = 0;
-    $(".cell-container").remove();
-    $("#playerHole1 img").remove();
-    $("#playerHole2 img").remove();
-    $("playerHole1 .glow").remove();
-    $("playerHole2 .glow").remove();
-    createCells(7, 7);
+  console.log("reset clicked");
+  gameBoardArray = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]
+  ];
+  player = 0;
+  $(".cell-container").remove();
+  createCells(7, 7);
 }
 
 function showWinModal() {
-    document.querySelector("#winModalShadow").style.display = "block";
-    if (player === 0) {
-      player = 2;
-    } else {
-      player = 1;
-    }
-    $("#winTitle").text("Player " + player + " wins!");
+  document.querySelector("#winModalShadow").style.display = "block";
+  if (player === 0) {
+    player = 2;
+  } else {
+    player = 1;
+  }
+  $("#winTitle").text("Player " + player + " wins!");
   powerUps.moon = 0;
   powerUps.sun = 0;
 }
@@ -437,9 +453,25 @@ function hideWinModal() {
   document.querySelector("#winModalShadow").style.display = "none";
 }
 
+function clearRowmoveRowDown(row){
+  var newRow= new Array(7).fill(0); 
+  gameBoardArray.splice(row,1);
+  gameBoardArray.unshift(newRow); 
+  $(".cell-container[row='"+row+"'] > .hole").empty();
+ for (var y=row-1; y>=0; y--){
+   for(var x=0; x<gameBoardArray.length; x++){
+     var image=$(".cell-container[row='"+y+"'][col='"+x+"'] > .hole > img")
+     if(image.length !== 0){
+       $(".cell-container[row='"+(y+1)+"'][col='"+x+"'] > .hole").append(image); 
+     }
+   }
+ }
+}
+
 function clearColumn(column) {
   for (var row = gameBoardArray.length - 1; row >= 0; row--) {
     gameBoardArray[row].splice(column, 1, 0);
     $(".cell-container[col='" + column + "'] > .hole").empty();
   }
 }
+

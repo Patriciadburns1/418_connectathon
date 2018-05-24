@@ -7,16 +7,31 @@ body {
 }
 .header {
   color: white;
-  text-align: center; 
-  font-family: 'Space Mono', monospace; 
-  font-size: 5rem; 
+  text-align: center;
+  font-family: "Space Mono", monospace;
+  font-size: 5rem;
 }
 
 .selectPlayer {
   color: white;
   text-align: center;
   font-family: "Space Mono", monospace;
+  font-size: 2em; 
 }
+
+#startButton{
+  /* background-color:white; */
+  background: transparent;   
+  color: white; 
+  font-size: 1.5rem; 
+  padding: .6rem 1rem; 
+  margin-bottom: 1.5rem;
+  }
+
+  #startButton:hover{
+    color: black;
+    background: white; 
+  }
 
 .main-container {
   height: 100%;
@@ -36,10 +51,12 @@ body {
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  cursor: pointer;
 }
 
 .cell-container {
-  border: 1px solid salmon;
+  color: #6699f6;
+  border: 1px solid currentColor;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -48,11 +65,30 @@ body {
   box-sizing: border-box;
 }
 
+.cell-container.is-player-two {
+  color: hotpink;
+}
+
 .hole {
   height: 80%;
   width: 80%;
   border-radius: 50%;
-  border: 1px solid salmon;
+  border: 1px solid currentColor;
+}
+
+.drop-highlight {
+  position: relative;
+}
+
+.drop-highlight::after {
+  content: "";
+  background-color: currentColor;
+  opacity: 0.4;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .hole img {
@@ -78,20 +114,19 @@ body {
   background-color: rgba(241, 233, 233, 0.4);
 }
 
-
-#modalBody{
-  position: fixed; 
-  background-image:url("images/yongChuan.jpg");
-  background-size: cover; 
-  background-repeat: no-repeat; 
-  left: 50%; 
-  top: 50%; 
-  min-height:50%;
-  min-width:50%; 
-  transform: translate( -50%, -50%); 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: space-between; 
+#modalBody {
+  position: fixed;
+  background-image: url("images/yongChuan.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  left: 50%;
+  top: 50%;
+  min-height: 100%; 
+  min-width: 100%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   font-family: "Space Mono", monospace;
 }
@@ -100,18 +135,18 @@ body {
   position: relative;
 }
 
-
-.imagesDiv{
+.imagesDiv {
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
 
-.imagesDiv img{
-  width:100px;
+.imagesDiv img {
+  width: 100px;
+  padding: 3%; 
 }
 
-.ifImageChosen{
+.ifImageChosen {
   -webkit-filter: blur(5px);
   filter: blur(5px);
 }
@@ -125,6 +160,7 @@ body {
   background-color: rgba(241, 233, 233, 0.4);
   /* display: none;  */
 }
+
 #winModalBody {
   position: fixed;
   /* background-image: url("images/yongChuan.jpg"); */
@@ -142,7 +178,6 @@ body {
   font-family: "Space Mono", monospace;
   flex-direction: column;
   color: white;
-  
 }
 
 #winTitle {
@@ -199,3 +234,5 @@ body {
         0 0 20px 15px rgb(0, 17, 255), 
         0 0 30px 25px #0ff;
 }
+
+
