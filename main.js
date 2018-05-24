@@ -1,14 +1,14 @@
 $(document).ready(startConnectFour);
 
-
-var gameBoardArray =
-    [[0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0]];
+var gameBoardArray = [
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0]
+];
 
 var vectors = [
   { y1: 0, x1: -1, y2: 0, x2: 1 }, //left and right
@@ -21,8 +21,7 @@ var player = 0;
 var symbols = [];
 
 function togglePlayer() {
-    player = 1 - player;
-    return player;
+  player = 1 - player;
 }
 
 checkForWin(0, 3, 1);
@@ -68,9 +67,26 @@ function appendStartButton(){
 }
 
 function clickStartButton(){
-    $("#startButton").on("click",closeModalatStart);
+  $("#startButton").on("click",closeModalatStart);
+  addGameHandlers();
+  clickStartButton();
+  addPlanetHandler();
 }
 
+function addPlanetHandler() {
+  $(".imagesDiv").on("click", "img", assignPlayer);
+}
+
+function createResetButton() {
+    var stats = $(".statsDisplay");
+    var resetButton = $("<button>", {
+        class: "reset",
+        text: "Reset",
+    });
+    stats.append(resetButton);
+    $(".reset").click(resetGame);
+
+}
 
 function createCells(row, col) {
   var gameBoard = $(".game-board");
@@ -88,9 +104,6 @@ function createCells(row, col) {
         class: "hole"
       });
 
-        // var img = $('<img src="images/earth_icon.png" alt="">');
-        // img.appendTo(hole);
-
       hole.appendTo(cellContainer);
 
       gameBoard.append(cellContainer);
@@ -106,51 +119,65 @@ var coordinateColumn = null;
 var coordinateRow = null;
 var currentSymbol = null;
 
-
-function getCellIndex() {
-  // coordinateRow = $(this).find(".cell-container").attr("row");
-  coordinateColumn = $(this)
-    .find(".cell-container")
-    .attr("column");
-  return coordinateColumn;
-}
-
-function getCurrentSymbol() {
-  currentSymbol = $(this)
-    .find(".cell-container")
-    .attr("src");
-  return currentSymbol;
-}
-
 function handleColumnClick() {
-    console.log(this);
-    coordinateColumn = getColumnIndex($(this));
-    currentSymbol = getCurrentSymbol($(this));
-    coordinateRow = getRowIndex(coordinateColumn);
-    updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol);
+  var cellContainer = $(this);
+  togglePlayerSymbols();
+  coordinateColumn = getColumnIndex(cellContainer);
+  coordinateRow = getRowIndex(coordinateColumn);
+  updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol);
+  dropMedallion(coordinateRow, coordinateColumn, currentSymbol);
+  var won = checkForWin(coordinateRow, coordinateColumn, currentSymbol);
+  if (won) {
+    console.log("you win!");
+  }
 }
 
-function getColumnIndex(cellContainer){
-    return cellContainer.attr("col");
+function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
+  var img = $("<img>", {
+    attr: {
+      src: currentSymbol
+    }
+  });
+
+  var cellContainer = $(
+    "div[row=" + coordinateRow + "][col=" + coordinateColumn + "]"
+  );
+  var hole = cellContainer.find(".hole");
+  hole.append(img);
+}
+
+function getColumnIndex(cellContainer) {
+  return parseInt(cellContainer.attr("col"));
 }
 
 function getCurrentSymbol(cellContainer) {
-    return $(cellContainer).find("img").attr("src");
+  return $(cellContainer)
+    .find("img")
+    .attr("src");
 }
 
-function getRowIndex(coordinateColumn){
-    var arraylength = gameBoardArray.length;
-    for (var rowChoice = arraylength-1; rowChoice >= 0; rowChoice--) {
-        if (gameBoardArray[rowChoice][coordinateColumn] === 0) {
-            return rowChoice;
-        }
+function getRowIndex(coordinateColumn) {
+  var arraylength = gameBoardArray.length;
+  for (var rowChoice = arraylength - 1; rowChoice >= 0; rowChoice--) {
+    if (gameBoardArray[rowChoice][coordinateColumn] === 0) {
+      return rowChoice;
     }
-    return -1;
+  }
+  return -1;
 }
 
-function updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol) {
-    gameBoardArray[coordinateRow].splice(coordinateColumn, 1, currentSymbol) 
-    return gameBoardArray;
+function togglePlayerSymbols() {
+  if (player === 0) {
+    currentSymbol = symbols[0];
+  } else {
+    currentSymbol = symbols[1];
+  }
+  togglePlayer();
+}
+
+function updateArrayAtPosition(coordinateRow, coordinateColumn) {
+  gameBoardArray[coordinateRow].splice(coordinateColumn, 1, currentSymbol);
+  return gameBoardArray;
 }
 
 function checkForWin(y, x, symbol) {
@@ -186,19 +213,35 @@ function checkForWin(y, x, symbol) {
     }
 
     if (counter >= 4) {
-      console.log("YOU WIN!");
       return true;
     }
   }
-  console.log("no match!");
   return false;
 }
-//this upon reset 
+//this upon reset
 function displayModal() {
-    document.querySelector("#modalShadow").style.display = "block"; 
+  document.querySelector("#modalShadow").style.display = "block";
 }
 
 function closeModalatStart() {
     document.querySelector("#modalShadow").style.display = "none";
     createCells(7, 7);
+    createResetButton();
 }
+
+
+function resetGame() {
+    console.log("reset clicked");
+    gameBoardArray =
+    [[0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]];
+    symbols = [];
+    player = 0;
+}
+
+
