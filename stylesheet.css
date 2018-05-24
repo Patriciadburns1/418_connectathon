@@ -38,7 +38,7 @@ body {
 }
 
 .cell-container {
-  border: 1px solid salmon;
+  border: 1px solid #6699f6;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -51,7 +51,11 @@ body {
   height: 80%;
   width: 80%;
   border-radius: 50%;
-  border: 1px solid salmon;
+  border: 1px solid #6699f6;
+}
+
+.drop-highlight {
+  background-color: #66e0f66c;
 }
 
 .hole img {
