@@ -53,13 +53,14 @@ function clickStartButton() {
 }
 
 function createResetButton() {
-    console.log("created button");
     var stats = $(".statsDisplay");
-    var resetButton = $("<div>", {
+    var resetButton = $("<button>", {
         class: "reset",
-        text: "Reset Game",
+        text: "Reset",
     });
     stats.append(resetButton);
+    $(".reset").click(resetGame);
+
 }
 
 function createCells(row, col) {
@@ -204,5 +205,18 @@ function closeModalatStart() {
 }
 
 
+function resetGame() {
+    console.log("reset clicked");
+    gameBoardArray =
+    [[0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]];
+    symbols = [];
+    player = 0;
+}
 
 
