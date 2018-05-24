@@ -30,6 +30,7 @@ function startConnectFour() {
   console.log("start Connect Four");
   // createCells(7, 7);
   addGameHandlers();
+  hideWinModal();
   clickStartButton();
   addPlanetHandler();
 }
@@ -104,7 +105,11 @@ function handleColumnClick() {
   var won = checkForWin(coordinateRow, coordinateColumn, currentSymbol);
   if (won) {
     console.log("you win!");
+    showWinModal();
+    $(".game-board").off("click");
   }
+  $("#winModalShadow").click(hideWinModal);
+
 }
 
 function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
@@ -202,21 +207,32 @@ function closeModalatStart() {
     document.querySelector("#modalShadow").style.display = "none";
     createCells(7, 7);
     createResetButton();
+    hideWinModal();
 }
 
 
 function resetGame() {
     console.log("reset clicked");
     gameBoardArray =
-    [[0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0]];
+        [[0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0]];
     symbols = [];
     player = 0;
+    $(".cell-container").remove();
+    createCells(7, 7);
+
 }
 
+function showWinModal() {
+    document.querySelector("#winModalShadow").style.display = "block";
+}
+
+function hideWinModal() {
+    document.querySelector("#winModalShadow").style.display = "none";
+}
 
