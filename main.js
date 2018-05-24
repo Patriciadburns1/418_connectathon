@@ -259,3 +259,9 @@ function hideWinModal() {
     document.querySelector("#winModalShadow").style.display = "none";
 }
 
+function clearColumn(column){
+  for (var row = gameBoardArray.length-1; row >=0; row--) {
+    gameBoardArray[row].splice(column,1,0)
+    $(".cell-container[col='"+column+"'] > .hole").empty();
+  }
+}
