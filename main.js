@@ -129,10 +129,11 @@ function handleColumnClick() {
   if (won) {
     console.log("you win!");
     showWinModal();
-    $(".game-board").off("click");
+    // $(".game-board").off("click");
+    resetGame();
+
   }
   $("#winModalShadow").click(hideWinModal);
-
 }
 
 function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
@@ -244,15 +245,19 @@ function resetGame() {
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0]];
-    symbols = [];
     player = 0;
     $(".cell-container").remove();
     createCells(7, 7);
-
 }
 
 function showWinModal() {
     document.querySelector("#winModalShadow").style.display = "block";
+    if (player === 0) {
+      player = 2;
+    } else {
+      player = 1;
+    }
+    $("#winTitle").text("Player " + player + " wins!");
 }
 
 function hideWinModal() {
