@@ -129,6 +129,12 @@ body {
   font-family: 'Space Mono', monospace; 
 }
 
+
+.ifImageChosen{
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+
 #winModalShadow {
   position: fixed;
   left: 0;
@@ -161,4 +167,5 @@ body {
 #winTitle {
   font-size: 5rem;
 }
+
 

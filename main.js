@@ -36,13 +36,18 @@ function startConnectFour() {
 }
 
 function assignPlayer(){
+  if(symbols.length>=2){
+    return; 
+  }
   console.log("this is assignPlayer");
     var symbol=$(this).attr("src"); 
     if( player===0){
         symbols[0]=symbol;
+        $(this).addClass("ifImageChosen"); 
     }   
     else{
         symbols[1]=symbol; 
+        $(this).addClass("ifImageChosen"); 
     }
    togglePlayer(); 
    changeTextonModal(); 
@@ -51,13 +56,10 @@ function assignPlayer(){
 
 function changeTextonModal(){
     if(symbols.length===2){
-        $(".selectPlayer").text("Select the Planet for Player 2"); 
+        $(".selectPlayer").text("Select the Planetary Body for Player 2"); 
         appendStartButton(); 
         clickStartButton(); 
     }   
-    // if(symbols.length===1){
-    //     $().addClass()
-    // }
 }
 
 function appendStartButton(){
