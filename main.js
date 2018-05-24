@@ -17,8 +17,20 @@ var vectors = [
   { y1: 1, x1: -1, y2: -1, x2: 1 } //down left and up right
 ];
 
+var crossVector = [
+  { y1: 0, x1: -1, y2: 0, x2: 1 }, //left and right
+  { y1: 1, x1: 0, y2: -1, x2: 0 } //up and down
+];
+
+var LVector = [{ y1: 0, x1: 1, y2: -1, x2: 0 }];
+
 var player = 0;
 var symbols = [];
+
+var powerUps = {
+    moon: 0,
+    sun: 0
+}
 
 function togglePlayer() {
   player = 1 - player;
@@ -53,14 +65,13 @@ function clickStartButton() {
 }
 
 function createResetButton() {
-    var stats = $(".statsDisplay");
-    var resetButton = $("<button>", {
-        class: "reset",
-        text: "Reset",
-    });
-    stats.append(resetButton);
-    $(".reset").click(resetGame);
-
+  var stats = $(".statsDisplay");
+  var resetButton = $("<button>", {
+    class: "reset",
+    text: "Reset"
+  });
+  stats.append(resetButton);
+  $(".reset").click(resetGame);
 }
 
 function createCells(row, col) {
@@ -105,6 +116,8 @@ function handleColumnClick() {
   if (won) {
     console.log("you win!");
   }
+
+  checkForPatterns(currentSymbol);
 }
 
 function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
@@ -155,6 +168,97 @@ function updateArrayAtPosition(coordinateRow, coordinateColumn) {
   return gameBoardArray;
 }
 
+function checkForPatterns(symbol) {
+  for (var i = 0; i < gameBoardArray.length; i++) {
+    for (var k = 0; k < gameBoardArray[0].length; k++) {
+       if(checkForCrossPattern(i, k, symbol, crossVector)) {
+           powerUps.sun++;
+       }
+       if(checkForLPattern(i, k, symbol, LVector)) {
+           powerUps.moon++;
+       }
+    }
+  }
+}
+
+function checkForLPattern(y, x, symbol, vectors) {
+  for (var direction in vectors) {
+    var startCounter = 1;
+    var endCounter = 1;
+    var set = vectors[direction];
+    var startY1 = y + set["y1"];
+    var startX1 = x + set["x1"];
+    var startY2 = y + set["y2"];
+    var startX2 = x + set["x2"];
+
+    while (
+      gameBoardArray[startY1] &&
+      gameBoardArray[startY1][startX1] === symbol
+    ) {
+      startCounter++;
+      startY1 += set["y1"];
+      startX1 += set["x1"];
+    }
+
+    while (
+      gameBoardArray[startY2] &&
+      gameBoardArray[startY2][startX2] === symbol
+    ) {
+      endCounter++;
+      startY2 += set["y2"];
+      startX2 += set["x2"];
+    }
+
+    if (startCounter > 2 && endCounter > 2) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function checkForCrossPattern(y, x, symbol, vectors) {
+  var directions = [];
+
+  for (var direction in vectors) {
+    var startCounter = 1;
+    var endCounter = 1;
+    var set = vectors[direction];
+    var startY1 = y + set["y1"];
+    var startX1 = x + set["x1"];
+    var startY2 = y + set["y2"];
+    var startX2 = x + set["x2"];
+
+    while (
+      gameBoardArray[startY1] &&
+      gameBoardArray[startY1][startX1] === symbol
+    ) {
+      startCounter++;
+      startY1 += set["y1"];
+      startX1 += set["x1"];
+    }
+
+    while (
+      gameBoardArray[startY2] &&
+      gameBoardArray[startY2][startX2] === symbol
+    ) {
+      endCounter++;
+      startY2 += set["y2"];
+      startX2 += set["x2"];
+    }
+
+    if (startCounter > 1 && endCounter > 1) {
+      directions.push(true);
+    } else {
+      directions.push(false);
+    }
+  }
+  //check if both directions have matching symbols
+  if (directions[0] && directions[1]) {
+    return true;
+  }
+  return false;
+}
+
 function checkForWin(y, x, symbol) {
   for (var majorDirection in vectors) {
     var counter = 1;
@@ -193,30 +297,31 @@ function checkForWin(y, x, symbol) {
   }
   return false;
 }
+
 //this upon reset
 function displayModal() {
   document.querySelector("#modalShadow").style.display = "block";
 }
 
 function closeModalatStart() {
-    document.querySelector("#modalShadow").style.display = "none";
-    createCells(7, 7);
-    createResetButton();
+  document.querySelector("#modalShadow").style.display = "none";
+  createCells(7, 7);
+  createResetButton();
 }
-
 
 function resetGame() {
-    console.log("reset clicked");
-    gameBoardArray =
-    [[0, 0, 0, 0, 0, 0, 0],
+  console.log("reset clicked");
+  gameBoardArray = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0]];
-    symbols = [];
-    player = 0;
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]
+  ];
+  symbols = [];
+  player = 0;
+  powerUps.moon = 0;
+  powerUps.sun = 0;
 }
-
-
