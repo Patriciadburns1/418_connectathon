@@ -210,7 +210,7 @@ function toggleBoardColor() {
     $('.cell-container').toggleClass('is-player-two');
 }
 
-function updateArrayAtPosition(coordinateRow, coordinateColumn) {
+function updateArrayAtPosition(coordinateRow,coordinateColumn){
   gameBoardArray[coordinateRow].splice(coordinateColumn, 1, currentSymbol);
   return gameBoardArray;
 }
@@ -389,9 +389,25 @@ function hideWinModal() {
   document.querySelector("#winModalShadow").style.display = "none";
 }
 
+function clearRowmoveRowDown(row){
+  var newRow= new Array(7).fill(0); 
+  gameBoardArray.splice(row,1);
+  gameBoardArray.unshift(newRow); 
+  $(".cell-container[row='"+row+"'] > .hole").empty();
+ for (var y=row-1; y>=0; y--){
+   for(var x=0; x<gameBoardArray.length; x++){
+     var image=$(".cell-container[row='"+y+"'][col='"+x+"'] > .hole > img")
+     if(image.length !== 0){
+       $(".cell-container[row='"+(y+1)+"'][col='"+x+"'] > .hole").append(image); 
+     }
+   }
+ }
+}
+
 function clearColumn(column) {
   for (var row = gameBoardArray.length - 1; row >= 0; row--) {
     gameBoardArray[row].splice(column, 1, 0);
     $(".cell-container[col='" + column + "'] > .hole").empty();
   }
 }
+
