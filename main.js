@@ -178,7 +178,7 @@ function togglePlayerSymbols() {
   togglePlayer();
 }
 
-function updateArrayAtPosition(coordinateRow, coordinateColumn) {
+function updateArrayAtPosition(coordinateRow,coordinateColumn){
   gameBoardArray[coordinateRow].splice(coordinateColumn, 1, currentSymbol);
   return gameBoardArray;
 }
@@ -221,6 +221,7 @@ function checkForWin(y, x, symbol) {
   }
   return false;
 }
+
 //this upon reset
 function displayModal() {
   document.querySelector("#modalShadow").style.display = "block";
@@ -257,5 +258,21 @@ function showWinModal() {
 
 function hideWinModal() {
     document.querySelector("#winModalShadow").style.display = "none";
+}
+
+
+function clearRowmoveRowDown(row){
+  var newRow= new Array(7).fill(0); 
+  gameBoardArray.splice(row,1);
+  gameBoardArray.unshift(newRow); 
+  $(".cell-container[row='"+row+"'] > .hole").empty();
+ for (var y=row-1; y>=0; y--){
+   for(var x=0; x<gameBoardArray.length; x++){
+     var image=$(".cell-container[row='"+y+"'][col='"+x+"'] > .hole > img")
+     if(image.length !== 0){
+       $(".cell-container[row='"+(y+1)+"'][col='"+x+"'] > .hole").append(image); 
+     }
+   }
+ }
 }
 
