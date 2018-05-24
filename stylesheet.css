@@ -128,3 +128,8 @@ body {
   border-radius: 30px;
   font-family: 'Space Mono', monospace; 
 }
+
+.ifImageChosen{
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
