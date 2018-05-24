@@ -4,16 +4,16 @@ body {
   margin: 0;
   background-image: url("images/galaxy.jpg");
 }
-.header{
+.header {
   color: white;
-  text-align: center; 
-  font-family: 'Space Mono', monospace; 
+  text-align: center;
+  font-family: "Space Mono", monospace;
 }
 
-.selectPlayer{
+.selectPlayer {
   color: white;
-  text-align: center; 
-  font-family: 'Space Mono', monospace; 
+  text-align: center;
+  font-family: "Space Mono", monospace;
 }
 
 .main-container {
@@ -55,43 +55,51 @@ body {
 
 .hole img {
   width: 100%;
+  animation: drop 0.4s ease-in;
 }
 
-#modalShadow{
-  position:fixed; 
-  left: 0; 
+@keyframes drop {
+  from {
+    transform: translate3d(0, -80vmin, 0);
+  }
+  to {
+    transform: translate3d(0, 2px, 0);
+  }
+}
+
+#modalShadow {
+  position: fixed;
+  left: 0;
   top: 0;
-  width: 100vw; 
+  width: 100vw;
   height: 100vh;
-  background-color:rgba(241, 233, 233, 0.4); 
+  background-color: rgba(241, 233, 233, 0.4);
   /* display: none;  */
 }
-#modalBody{
-  position: fixed; 
-  background-image:url("images/yongChuan.jpg");
-  background-size: cover; 
-  background-repeat: no-repeat; 
-  left: 50%; 
-  top: 50%; 
-  min-height:50%;
-  min-width:50%; 
-  transform: translate( -50%, -50%); 
-  display: flex; 
-  justify-content: center; 
+#modalBody {
+  position: fixed;
+  background-image: url("images/yongChuan.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  left: 50%;
+  top: 50%;
+  min-height: 50%;
+  min-width: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
   align-items: center;
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
 }
 
-.modalItems{
-  position: relative; 
- 
+.modalItems {
+  position: relative;
 }
 
-.imagesDiv img{
+.imagesDiv img {
   /* height: 150px;  */
-  width:150px; 
+  width: 150px;
 }
-
 
 .statsDisplay {
   height: 80vmin;
