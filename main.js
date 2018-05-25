@@ -179,29 +179,39 @@ function handleColumnClick() {
   coordinateColumn = getColumnIndex(cellContainer);
   coordinateRow = getRowIndex(coordinateColumn);
   updateArrayAtPosition(coordinateRow, coordinateColumn, currentSymbol);
-  dropMedallion(coordinateRow, coordinateColumn, currentSymbol);
-  var won = checkForWin(coordinateRow, coordinateColumn, currentSymbol);
-  if (won) {
-    console.log("you win!");
-    showWinModal();
-    // $(".game-board").off("click");
-    resetGame();
-  }
-  checkForPatterns(currentSymbol);
+  dropMedallion(coordinateRow, coordinateColumn, currentSymbol, function() {
+    var won = checkForWin(coordinateRow, coordinateColumn, currentSymbol);
+    if (won) {
+      console.log("you win!");
+      showWinModal();
+      // $(".game-board").off("click");
+      resetGame();
+    }
+    checkForPatterns(currentSymbol);
+  });
+
   $("#winModalShadow").click(hideWinModal);
 }
 
-function dropMedallion(coordinateRow, coordinateColumn, currentSymbol) {
+function dropMedallion(
+  coordinateRow,
+  coordinateColumn,
+  currentSymbol,
+  medallionDropped
+) {
   var img = $("<img>", {
     attr: {
       src: currentSymbol
     }
   });
 
+  img.on("animationend", medallionDropped);
+
   var cellContainer = $(
     "div[row=" + coordinateRow + "][col=" + coordinateColumn + "]"
   );
   var hole = cellContainer.find(".hole");
+
   hole.append(img);
 }
 
@@ -237,14 +247,13 @@ function togglePlayerSymbols() {
 }
 
 function glowSelectedPlayerProfile() {
-    if(player === 0) {
-        $('#playerHole1').addClass('glow');
-        $('#playerHole2').removeClass('glow');
-    } else {
-        $('#playerHole2').addClass('glow');
-        $('#playerHole1').removeClass('glow');
-    }
-
+  if (player === 0) {
+    $("#playerHole1").addClass("glow");
+    $("#playerHole2").removeClass("glow");
+  } else {
+    $("#playerHole2").addClass("glow");
+    $("#playerHole1").removeClass("glow");
+  }
 }
 
 function toggleBoardColor() {
@@ -260,39 +269,10 @@ function checkForPatterns(symbol) {
   for (var i = 0; i < gameBoardArray.length; i++) {
     for (var k = 0; k < gameBoardArray[0].length; k++) {
       if (checkForCrossPattern(i, k, symbol, crossVector)) {
-        powerUps.sun++;
-        console.log("sun");
-        debugger;
-        if (player !== 0) {
-          $("#playerHole1").append("<img>");
-          if ($("#playerHole1 img").attr("src") !== "images/mars.png") {
-            $("#playerHole1 img").attr("src", "images/mars.png");
-            $("#playerHole1").addClass("glow");
-          }
-        } else {
-          $("#playerHole2").append("<img>");
-          if ($("#playerHole2 img").attr("src") !== "images/mars.png") {
-            $("#playerHole2 img").attr("src", "images/mars.png");
-            $("#playerHole1").addClass("glow");
-          }
-        }
+        clearColumn(k);
       }
       if (checkForLPattern(i, k, symbol, LVector)) {
-        powerUps.moon++;
-        console.log("moon");
-        if (player !== 0) {
-          $("#playerHole1").append("<img>");
-          if ($("#playerHole1 img").attr("src") !== "images/moon.png") {
-            $("#playerHole1 img").attr("src", "images/moon.png");
-            $("#playerHole1").addClass("glow");
-          }
-        } else {
-          $("#playerHole2").append("<img>");
-          if ($("#playerHole2 img").attr("src") !== "images/moon.png") {
-            $("#playerHole2 img").attr("src", "images/moon.png");
-            $("#playerHole1").addClass("glow");
-          }
-        }
+        clearRowmoveRowDown(i);
       }
     }
   }
@@ -424,7 +404,7 @@ function closeModalatStart() {
   document.querySelector("#modalShadow").style.display = "none";
   createCells(7, 7);
   createPlayerStats();
-  glowSelectedPlayerProfile()
+  glowSelectedPlayerProfile();
   createResetButton();
   hideWinModal();
 }
