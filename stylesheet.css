@@ -233,3 +233,7 @@ body {
   box-shadow: 0 0 5px 1px #000, 0 0 20px 15px rgb(0, 17, 255),
     0 0 30px 25px #0ff;
 }
+
+.hidden{
+  display: none;
+}
