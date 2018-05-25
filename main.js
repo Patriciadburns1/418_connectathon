@@ -42,7 +42,6 @@ function startConnectFour() {
   console.log("start Connect Four");
   // createCells(7, 7);
   addGameHandlers();
-  hideWinModal();
   clickStartButton();
   addPlanetHandler();
 }
@@ -51,18 +50,26 @@ function assignPlayer() {
   if (symbols.length >= 2) {
     return;
   }
-  console.log("this is assignPlayer");
+
+  if ($(event.target).hasClass('ifImageChosen')) {
+    return;
+  }
   var symbol = $(this).attr("src");
   if (player === 0) {
     symbols[0] = symbol;
-    $(this).addClass("ifImageChosen");
-  } else {
+    
+  } 
+  else {
     symbols[1] = symbol;
-    $(this).addClass("ifImageChosen");
   }
+
+  $(this).addClass("ifImageChosen");
+
+  
   togglePlayer();
   changeTextonModal();
 }
+
 
 function changeTextonModal() {
   if (symbols.length === 1) {
@@ -189,8 +196,7 @@ function handleColumnClick() {
     }
     checkForPatterns(currentSymbol);
   });
-
-  $("#winModalShadow").click(hideWinModal);
+  $("#winModalShadow").click(toggleWinModalVisibility);
 }
 
 function dropMedallion(
@@ -397,16 +403,17 @@ function checkForWin(y, x, symbol) {
 
 //this upon reset
 function displayModal() {
-  document.querySelector("#modalShadow").style.display = "block";
+  $("#modalShadow").show(); 
+  // document.querySelector("#modalShadow").style.display = "block";
 }
 
 function closeModalatStart() {
-  document.querySelector("#modalShadow").style.display = "none";
+  $("#modalShadow").hide(); 
   createCells(7, 7);
   createPlayerStats();
   glowSelectedPlayerProfile();
   createResetButton();
-  hideWinModal();
+  // toggleWinModalVisibility();
 }
 
 function resetGame() {
@@ -426,7 +433,7 @@ function resetGame() {
 }
 
 function showWinModal() {
-  document.querySelector("#winModalShadow").style.display = "block";
+  toggleWinModalVisibility();
   if (player === 0) {
     player = 2;
   } else {
@@ -437,8 +444,8 @@ function showWinModal() {
   powerUps.sun = 0;
 }
 
-function hideWinModal() {
-  document.querySelector("#winModalShadow").style.display = "none";
+function toggleWinModalVisibility() {
+  $("#winModalShadow").toggleClass("hidden");
 }
 
 function clearRowmoveRowDown(row) {
