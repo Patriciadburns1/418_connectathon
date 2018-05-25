@@ -51,25 +51,21 @@ function assignPlayer() {
     return;
   }
 
-  if ($(event.target).hasClass('ifImageChosen')) {
+  if ($(event.target).hasClass("ifImageChosen")) {
     return;
   }
   var symbol = $(this).attr("src");
   if (player === 0) {
     symbols[0] = symbol;
-    
-  } 
-  else {
+  } else {
     symbols[1] = symbol;
   }
 
   $(this).addClass("ifImageChosen");
 
-  
   togglePlayer();
   changeTextonModal();
 }
-
 
 function changeTextonModal() {
   if (symbols.length === 1) {
@@ -164,6 +160,7 @@ function addGameHandlers() {
   $(".game-board").on("click", ".cell-container", handleColumnClick);
   $(".game-board").on("mouseenter", ".cell-container", handleCellMouseEnter);
   $(".game-board").on("mouseleave", ".cell-container", handleCellMouseLeave);
+  $("#winModalShadow").on("click", toggleWinModalVisibility);
 }
 
 function handleCellMouseEnter() {
@@ -196,7 +193,6 @@ function handleColumnClick() {
     }
     checkForPatterns(currentSymbol);
   });
-  $("#winModalShadow").click(toggleWinModalVisibility);
 }
 
 function dropMedallion(
@@ -403,12 +399,12 @@ function checkForWin(y, x, symbol) {
 
 //this upon reset
 function displayModal() {
-  $("#modalShadow").show(); 
+  $("#modalShadow").show();
   // document.querySelector("#modalShadow").style.display = "block";
 }
 
 function closeModalatStart() {
-  $("#modalShadow").hide(); 
+  $("#modalShadow").hide();
   createCells(7, 7);
   createPlayerStats();
   glowSelectedPlayerProfile();
