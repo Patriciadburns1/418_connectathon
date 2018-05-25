@@ -1,0 +1,257 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  background-image: url("images/galaxy.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  font-family: "Space Mono", monospace;
+}
+.header {
+  color: white;
+  text-align: center;
+  font-family: "Space Mono", monospace;
+  font-size: 5rem;
+}
+
+.selectPlayer {
+  color: white;
+  text-align: center;
+  font-family: "Space Mono", monospace;
+  font-size: 2em;
+}
+
+#startButton {
+  /* background-color:white; */
+  background: transparent;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+}
+
+#startButton:hover {
+  color: black;
+  background: white;
+}
+
+.main-container {
+  height: 100%;
+  width: 100%;
+  /* background-image: url("images/galaxy.jpg"); */
+  background-position: center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-board {
+  width: 80vmin;
+  height: 80vmin;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  cursor: pointer;
+}
+
+.cell-container {
+  color: #6699f6;
+  border: 1px solid currentColor;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+  box-sizing: border-box;
+}
+
+.cell-container.is-player-two {
+  color: hotpink;
+}
+
+.hole {
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+}
+
+.drop-highlight {
+  position: relative;
+}
+
+.drop-highlight::after {
+  content: "";
+  background-color: currentColor;
+  opacity: 0.4;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.hole img {
+  width: 100%;
+  animation: drop 0.4s ease-in;
+}
+
+@keyframes drop {
+  from {
+    transform: translate3d(0, -80vmin, 0);
+  }
+  to {
+    transform: translate3d(0, 2px, 0);
+  }
+}
+
+#modalShadow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(241, 233, 233, 0.4);
+}
+
+#modalBody {
+  position: fixed;
+  background-image: url("images/yongChuan.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  left: 50%;
+  top: 50%;
+  min-height: 100%;
+  min-width: 100%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Space Mono", monospace;
+}
+
+.modalItems {
+  position: relative;
+}
+
+.imagesDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagesDiv img {
+  width: 100px;
+  padding: 3%;
+}
+
+.ifImageChosen {
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+
+#winModalShadow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(241, 233, 233, 0.4);
+  /* display: none;  */
+}
+
+#winModalBody {
+  position: fixed;
+  /* background-image: url("images/yongChuan.jpg"); */
+  background-image: url("https://media0.giphy.com/media/BFHj2VF4vi3GE/200w.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  left: 50%;
+  top: 50%;
+  min-height: 70%;
+  min-width: 70%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Space Mono", monospace;
+  flex-direction: column;
+  color: white;
+}
+
+#winTitle {
+  font-size: 5rem;
+}
+
+.powerUps {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  color: white;
+}
+
+.statsDisplay {
+  height: 80vmin;
+  width: 30vmin;
+  color: white;
+  margin-right: 5vmin;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.reset {
+  border: 1px solid white;
+  width: 100%;
+  background-color: transparent;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  text-align: center;
+  margin-top: 5vmin;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.reset:hover {
+  color: black;
+  background-color: #fff;
+}
+
+.reset:focus {
+  outline: none;
+}
+
+.statsHole {
+  width: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(250, 128, 114, 0.411);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statsHole img {
+  width: 100%;
+}
+
+.glow {
+  box-shadow: 0 0 30px 25px #0ff;
+  animation: highLow .4s infinite alternate ease-in-out;
+}
+
+@keyframes highLow {
+    from {box-shadow: 0 0 25px 15px salmon;}
+    to {box-shadow: 0 0 10px 5px salmon;}
+}
+
+.hidden{
+  display: none;
+}
