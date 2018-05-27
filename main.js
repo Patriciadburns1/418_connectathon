@@ -274,7 +274,10 @@ function checkForPatterns(symbol) {
         });
       }
       if (checkForLPattern(i, k, symbol, LVector)) {
-        clearRowmoveRowDown(i);
+        wipeRowWithSun(6, function(row) {
+          //clear the row that was wiped by sun
+          clearRowmoveRowDown(row);
+        });
       }
     }
   }
@@ -282,14 +285,29 @@ function checkForPatterns(symbol) {
 
 function wipeColumnWithSun(col, whenFinish) {
   var images = $(".cell-container[col='" + col + "'] > .hole img");
-  //when finished fading images out 
+  //when finished fading images out
   images.each(function(index) {
-    $(this).attr('src', 'images/Sun.png');
+    $(this).attr("src", "images/Sun.png");
     $(this)
       .delay(index * 500)
       .fadeOut(function() {
         if (images.length - 1 === index) {
           whenFinish(col);
+        }
+      });
+  });
+}
+
+function wipeRowWithSun(row, whenFinish) {
+  var images = $(".cell-container[row='" + row + "'] > .hole img");
+  //when finished fading images out
+  images.each(function(index) {
+    $(this).attr("src", "images/Sun.png");
+    $(this)
+      .delay(index * 500)
+      .fadeOut(function() {
+        if (images.length - 1 === index) {
+          whenFinish(row);
         }
       });
   });
@@ -451,8 +469,6 @@ function showWinModal() {
     player = 1;
   }
   $("#winTitle").text("Player " + player + " wins!");
-  powerUps.moon = 0;
-  powerUps.sun = 0;
 }
 
 function toggleWinModalVisibility() {
