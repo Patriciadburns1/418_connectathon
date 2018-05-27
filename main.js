@@ -36,11 +36,8 @@ function togglePlayer() {
   player = 1 - player;
 }
 
-checkForWin(0, 3, 1);
-
 function startConnectFour() {
   console.log("start Connect Four");
-  // createCells(7, 7);
   addGameHandlers();
   clickStartButton();
   addPlanetHandler();
@@ -271,13 +268,31 @@ function checkForPatterns(symbol) {
   for (var i = 0; i < gameBoardArray.length; i++) {
     for (var k = 0; k < gameBoardArray[0].length; k++) {
       if (checkForCrossPattern(i, k, symbol, crossVector)) {
-        clearColumn(k);
+        wipeColumnWithSun(k, function(col) {
+          //clear the column that was wiped by sun
+          clearColumn(col);
+        });
       }
       if (checkForLPattern(i, k, symbol, LVector)) {
         clearRowmoveRowDown(i);
       }
     }
   }
+}
+
+function wipeColumnWithSun(col, whenFinish) {
+  var images = $(".cell-container[col='" + col + "'] > .hole img");
+  //when finished fading images out 
+  images.each(function(index) {
+    $(this).attr('src', 'images/Sun.png');
+    $(this)
+      .delay(index * 500)
+      .fadeOut(function() {
+        if (images.length - 1 === index) {
+          whenFinish(col);
+        }
+      });
+  });
 }
 
 function checkForLPattern(y, x, symbol, vectors) {
@@ -466,6 +481,6 @@ function clearRowmoveRowDown(row) {
 function clearColumn(column) {
   for (var row = gameBoardArray.length - 1; row >= 0; row--) {
     gameBoardArray[row].splice(column, 1, 0);
-    $(".cell-container[col='" + column + "'] > .hole").empty();
   }
+  $(".cell-container[col='" + column + "'] > .hole").empty();
 }
