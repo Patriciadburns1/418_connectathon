@@ -9,7 +9,6 @@ body {
   font-family: "Space Mono", monospace;
 }
 
-
 .header {
   color: white;
   text-align: center;
@@ -102,12 +101,26 @@ body {
   animation: drop 0.4s ease-in;
 }
 
+.hole img.small-drop {
+  width: 100%;
+  animation: smallDrop 0.2s ease-in;
+}
+
+@keyframes smallDrop {
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @keyframes drop {
   from {
     transform: translate3d(0, -80vmin, 0);
   }
   to {
-    transform: translate3d(0, 2px, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -145,7 +158,6 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-
 }
 
 .imagesDiv img {
@@ -192,8 +204,8 @@ body {
   background-repeat: no-repeat;
   left: 50%;
   top: 50%;
-  min-height: 70%;
   min-width: 70%;
+  min-height: 70%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;

@@ -476,6 +476,7 @@ function toggleWinModalVisibility() {
 }
 
 function clearRowmoveRowDown(row) {
+  $('.hole img').addClass('small-drop'); //next drop height are smaller
   var newRow = new Array(7).fill(0);
   gameBoardArray.splice(row, 1);
   gameBoardArray.unshift(newRow);
