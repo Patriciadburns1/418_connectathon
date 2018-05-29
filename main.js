@@ -47,20 +47,22 @@ function startConnectFour() {
 }
 
 function assignPlayer() {
+  //this is the if statement to not let you click once two planets have been selected 
   if (symbols.length >= 2) {
     return;
   }
-
+// if you clicked on image once you can't click on it again
   if ($(event.target).hasClass("ifImageChosen")) {
     return;
   }
+  // if player is technically one it will assign that planet to the player
   var symbol = $(this).attr("src");
   if (player === 0) {
     symbols[0] = symbol;
   } else {
     symbols[1] = symbol;
   }
-
+  // adds class Image 
   $(this).addClass("ifImageChosen");
 
   togglePlayer();
@@ -77,6 +79,7 @@ function changeTextonModal() {
   }
 }
 
+//using an object to create the start button 
 function appendStartButton() {
   console.log("this is working");
   var startButton = $("<button>", {
