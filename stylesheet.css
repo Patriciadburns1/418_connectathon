@@ -161,10 +161,11 @@ body {
 }
 
 .imagesDiv img {
-  width: 100px;
+  width: 16.6%;
   padding: 3%;
   animation: rotate 60s linear infinite;
   border-radius: 100%;
+  box-sizing: border-box;
 }
 
 .imagesDiv img:hover {
